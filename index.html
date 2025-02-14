@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senin İçin Küçük Bir Sürpriz</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #FF9A9E, #FAD0C4);
+        text-align: center;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 1s forwards;
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .page {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+      button {
+        background: #FF758C;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+      button:hover {
+        background: #FF5E78;
+      }
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+      }
+      .slider {
+        -webkit-appearance: none;
+        width: 80%;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.4);
+        outline: none;
+        border-radius: 5px;
+        position: relative;
+      }
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 40px;
+        height: 40px;
+        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+        background-size: contain;
+        cursor: pointer;
+      }
+      .timeline-item {
+        display: none;
+        margin-top: 20px;
+      }
+      .timeline-item.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+      <audio id="backgroundMusic" autoplay loop>
+      <source src="music.mp3" type="audio/mp3">
+      Tarayıcınız ses dosyasını desteklemiyor.
+    </audio>
+    <div class="container">
+      <div id="page1" class="page active">
+        <h1>Giriş</h1>
+        <p>Giriş Açıklama</p>
+        <button onclick="nextPage(2)">Devam et</button>
+      </div>
+      <div id="page2" class="page">
+        <h1>Özel Gün Başlık</h1>
+        <p>2. sayfa açıklama</p>
+        <button onclick="nextPage(3)">Devam et</button>
+      </div>
+      <div id="page3" class="page">
+        <h1>Timeline</h1>
+        <button id="timelineButton" onclick="showTimeline(1)">İleri</button>
+        <div id="timeline" class="timeline">
+          <div id="timeline1" class="timeline-item">
+            <h2>Tanışma</h2>
+            <p>Tanışma Açıklama</p>
+          </div>
+          <div id="timeline2" class="timeline-item">
+            <h2>Özel tarihler</h2>
+            <p>Özel tarihler açıklama</p>
+          </div>
+          <div id="timeline3" class="timeline-item">
+            <h2>Özel tarihler 2</h2>
+            <p>Özel tarihler açıklama 2</p>
+          </div>
+          <div id="timeline4" class="timeline-item">
+            <h2>GÜNÜMÜZ - 14 Şubat</h2>
+            <p>Açıklama güzel şeyler falan</p>
+          </div>
+        </div>
+      </div>
+      <div id="page4" class="page">
+        <h1>SON</h1>
+        <p>Son sayfa açıklama</p>
+      </div>
+    </div>
+    <script>
+      function nextPage(pageNumber) {
+        document.querySelector('.active').classList.remove('active');
+        document.getElementById('page' + pageNumber).classList.add('active');
+      }
+      function showTimeline(step) {
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        // Tüm timeline öğelerini gizle
+        timelineItems.forEach(item => item.classList.remove('active'));
+        // Mevcut adımı göster
+        if (timelineItems[step - 1]) {
+          timelineItems[step - 1].classList.add('active');
+        }
+        // Eğer bir sonraki adıma geçmek varsa, butonu güncelle
+        if (step < timelineItems.length) {
+          const button = document.getElementById('timelineButton');
+          button.onclick = function() {
+            showTimeline(step + 1);  // Sonraki adımı göster
+          };
+        } else {
+          // Zaman çizelgesinin tamamlandığını varsayarak sayfayı değiştir
+          setTimeout(function() {
+            nextPage(4);  // Sayfayı 4'e geç
+          }, 3000); // 1 saniye sonra sayfayı geç
+        }
+      }
+    </script>
+  </body>
+</html>
